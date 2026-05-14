@@ -36,14 +36,28 @@ public sealed class IngestWorker : BackgroundService
             _opts.MaxConcurrentFiles);
 
         var semaphore = new SemaphoreSlim(_opts.MaxConcurrentFiles, _opts.MaxConcurrentFiles);
+        var inFlight  = new List<Task>();
 
         await foreach (var request in _source.ReadAsync(stoppingToken))
         {
             // Acquire slot — blocks when MaxConcurrentFiles are already in flight.
             await semaphore.WaitAsync(stoppingToken);
 
-            // Fire-and-forget the individual file processing; semaphore released when done.
-            _ = ProcessRequestAsync(request, semaphore, stoppingToken);
+            inFlight.Add(ProcessRequestAsync(request, semaphore, stoppingToken));
+
+            // Prune completed tasks so the list doesn't grow unbounded.
+            inFlight.RemoveAll(t => t.IsCompleted);
+        }
+
+        // Graceful shutdown: wait for any in-flight file to finish its transaction
+        // before the process exits. Prevents orphaned open transactions that hold
+        // the SQL Server transaction log open (seen as ACTIVE_TRANSACTION / 9002).
+        if (inFlight.Count > 0)
+        {
+            _logger.LogInformation(
+                "IngestWorker stopping — waiting for {Count} in-flight file(s) to complete",
+                inFlight.Count);
+            await Task.WhenAll(inFlight);
         }
     }
 
