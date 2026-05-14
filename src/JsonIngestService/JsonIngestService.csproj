@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <UserSecretsId>json-ingest-service</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- SQL Server connectivity and bulk copy -->
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+
+    <!-- Kubernetes / Docker worker hosting -->
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+
+    <!-- Structured logging -->
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.4" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+
+    <!-- Optional: Azure Service Bus queue consumer -->
+    <!-- <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.18.0" /> -->
+  </ItemGroup>
+
+</Project>
