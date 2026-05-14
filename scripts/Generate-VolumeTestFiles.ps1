@@ -1,14 +1,24 @@
 <#
 .SYNOPSIS
-    Generates N copies of each source file for ingestion volume testing.
+    Generates N copies of each template file for ingestion volume testing.
 
 .DESCRIPTION
-    Copies each template file into the drop folder with a unique numbered suffix.
-    All copies retain the original documentId prefix so the FK to dbo.Document
-    is satisfied.  Duplicate data is created intentionally for throughput testing.
+    Reads JSON template files from SourceDir and writes numbered copies into
+    DropDir so the ingestion service processes them as separate files.
+
+    Recommended one-time setup:
+        New-Item -ItemType Directory "C:\ingest\templates" -Force
+        Copy-Item "C:\ingest\processed\*.json" "C:\ingest\templates\"
+        # Keep only the files you want as templates (exclude the 60MB DataRetain file)
+
+    All copies keep the original documentId prefix (e.g. 28369_vol_000001.json)
+    so the FK to dbo.Document is satisfied.  Duplicate cdm data is created
+    intentionally; this script is for throughput testing only.
 
 .PARAMETER SourceDir
-    Folder containing the template JSON files (defaults to C:\ingest\processed).
+    Folder containing the template JSON files.
+    Defaults to C:\ingest\templates.
+    Pass any path: -SourceDir "D:\my\samples"
 
 .PARAMETER DropDir
     Drop folder the ingestion service polls (defaults to C:\ingest\drop).
@@ -22,15 +32,19 @@
     Set to 0 (default) to drop all files at once with no throttling.
 
 .EXAMPLE
-    # 1 000 total files (200 copies × 5 templates), no throttling
-    .\Generate-VolumeTestFiles.ps1 -CopiesPerFile 200
+    # 500 files total (100 copies x 5 templates), no throttling
+    .\scripts\Generate-VolumeTestFiles.ps1 -CopiesPerFile 100
 
 .EXAMPLE
-    # 5 000 total files, dripped in batches of 50 so the service stays current
-    .\Generate-VolumeTestFiles.ps1 -CopiesPerFile 1000 -BatchSize 50
+    # Use a custom source folder
+    .\scripts\Generate-VolumeTestFiles.ps1 -SourceDir "D:\samples" -CopiesPerFile 200
+
+.EXAMPLE
+    # 5 000 files, dripped in batches of 50 so the service stays current
+    .\scripts\Generate-VolumeTestFiles.ps1 -CopiesPerFile 1000 -BatchSize 50
 #>
 param(
-    [string] $SourceDir    = "C:\ingest\processed",
+    [string] $SourceDir    = "C:\ingest\templates",
     [string] $DropDir      = "C:\ingest\drop",
     [int]    $CopiesPerFile = 100,
     [int]    $BatchSize     = 0   # 0 = drop everything at once
@@ -43,7 +57,12 @@ $templates = Get-ChildItem $SourceDir -Filter "*.json" |
              Where-Object { $_.Name -notlike "*60MB*" }
 
 if ($templates.Count -eq 0) {
-    Write-Error "No template files found in '$SourceDir'.  Run the ingest once first so files are in processed/."
+    Write-Error (@"
+No template files found in '$SourceDir'.
+One-time setup:
+    New-Item -ItemType Directory 'C:\ingest\templates' -Force
+    Copy-Item 'C:\ingest\processed\*.json' 'C:\ingest\templates\'
+"@)
     exit 1
 }
 
