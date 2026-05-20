@@ -8,6 +8,14 @@ USE [YourDatabaseName]; -- << replace with your database name
 GO
 
 -- ---------------------------------------------------------------------------
+-- Snapshot isolation: prevents reads from being blocked by concurrent
+-- bulk inserts. Reset to READ COMMITTED at the end of this script.
+-- Requires ALLOW_SNAPSHOT_ISOLATION ON (see 01_database_settings.sql).
+-- ---------------------------------------------------------------------------
+SET TRANSACTION ISOLATION LEVEL SNAPSHOT;
+GO
+
+-- ---------------------------------------------------------------------------
 -- PARAMETERS (declare once; reuse across all queries in the same batch)
 -- ---------------------------------------------------------------------------
 DECLARE @Username       NVARCHAR(200)   = N'joe.blackler';  -- maps to dbo.ReferenceSecurity.szUser
@@ -259,4 +267,10 @@ WHERE   r.ID        = @ReferenceID
   AND   rs.szUser   = @Username
 
 ORDER BY jf.ID, sub.ID, subs.ID;
+GO
+
+-- ---------------------------------------------------------------------------
+-- Reset isolation level for subsequent statements in this session.
+-- ---------------------------------------------------------------------------
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
 GO

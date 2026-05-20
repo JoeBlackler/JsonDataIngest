@@ -12,9 +12,24 @@ GO
 -- Prevents write operations from blocking concurrent reads.
 -- Critical at 120+ docs/hour with constant read traffic.
 -- ---------------------------------------------------------------------------
+-- ALTER DATABASE [YourDatabaseName]
+--    SET READ_COMMITTED_SNAPSHOT ON
+--    WITH ROLLBACK AFTER 30 SECONDS;
+-- GO
+-->
+
+
+-- ---------------------------------------------------------------------------
+-- Snapshot Isolation
+-- Allows reporting queries to opt in to non-blocking, row-version reads
+-- without changing the default isolation level for all connections.
+-- Read queries must explicitly request it:
+--   SET TRANSACTION ISOLATION LEVEL SNAPSHOT;
+-- Uses the same tempdb version store as RCSI — no extra overhead if RCSI
+-- is already enabled.
+-- ---------------------------------------------------------------------------
 ALTER DATABASE [YourDatabaseName]
-    SET READ_COMMITTED_SNAPSHOT ON
-    WITH ROLLBACK AFTER 30 SECONDS;
+    SET ALLOW_SNAPSHOT_ISOLATION ON;
 GO
 
 -- ---------------------------------------------------------------------------

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\joe.blackler\\source\\JsonDataIngest\\src\\JsonIngestService\\JsonIngestService.csproj": {}
+    "C:\\Users\\joe.blackler\\source\\JsonDataIngest\\src\\JsonIngestService\\JsonIngestService.csproj": {}
   },
   "projects": {
-    "c:\\Users\\joe.blackler\\source\\JsonDataIngest\\src\\JsonIngestService\\JsonIngestService.csproj": {
+    "C:\\Users\\joe.blackler\\source\\JsonDataIngest\\src\\JsonIngestService\\JsonIngestService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\joe.blackler\\source\\JsonDataIngest\\src\\JsonIngestService\\JsonIngestService.csproj",
+        "projectUniqueName": "C:\\Users\\joe.blackler\\source\\JsonDataIngest\\src\\JsonIngestService\\JsonIngestService.csproj",
         "projectName": "JsonIngestService",
-        "projectPath": "c:\\Users\\joe.blackler\\source\\JsonDataIngest\\src\\JsonIngestService\\JsonIngestService.csproj",
+        "projectPath": "C:\\Users\\joe.blackler\\source\\JsonDataIngest\\src\\JsonIngestService\\JsonIngestService.csproj",
         "packagesPath": "C:\\Users\\joe.blackler\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\joe.blackler\\source\\JsonDataIngest\\src\\JsonIngestService\\obj\\",
+        "outputPath": "C:\\Users\\joe.blackler\\source\\JsonDataIngest\\src\\JsonIngestService\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,6 +32,7 @@
         },
         "frameworks": {
           "net8.0": {
+            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {}
           }
@@ -46,10 +47,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.200"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.Data.SqlClient": {
@@ -89,7 +91,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

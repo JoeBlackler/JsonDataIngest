@@ -80,6 +80,8 @@ CREATE TABLE cdm.JsonFile (
         FOREIGN KEY (Document_ID) REFERENCES dbo.Document(ID)
 );
 GO
+ALTER TABLE cdm.JsonFile SET (LOCK_ESCALATION = DISABLE);
+GO
 
 -- ---------------------------------------------------------------------------
 -- 2. cdm.Identifier
@@ -113,6 +115,8 @@ CREATE TABLE cdm.Identifier (
         FOREIGN KEY (JsonFile_ID) REFERENCES cdm.JsonFile(ID)
 );
 GO
+ALTER TABLE cdm.Identifier SET (LOCK_ESCALATION = DISABLE);
+GO
 
 -- ---------------------------------------------------------------------------
 -- 3. cdm.Location
@@ -134,6 +138,8 @@ CREATE TABLE cdm.Location (
     CONSTRAINT FK_Location_JsonFile
         FOREIGN KEY (JsonFile_ID) REFERENCES cdm.JsonFile(ID)
 );
+GO
+ALTER TABLE cdm.Location SET (LOCK_ESCALATION = DISABLE);
 GO
 
 -- ---------------------------------------------------------------------------
@@ -274,6 +280,8 @@ CREATE TABLE cdm.Event (
         FOREIGN KEY (JsonFile_ID) REFERENCES cdm.JsonFile(ID)
 ) WITH (DATA_COMPRESSION = ROW);
 GO
+ALTER TABLE cdm.Event SET (LOCK_ESCALATION = DISABLE);
+GO
 
 -- ---------------------------------------------------------------------------
 -- 9. cdm.EventAttribute
@@ -290,6 +298,8 @@ CREATE TABLE cdm.EventAttribute (
     CONSTRAINT FK_EventAttribute_Event
         FOREIGN KEY (Event_ID) REFERENCES cdm.Event(ID)
 ) WITH (DATA_COMPRESSION = ROW);
+GO
+ALTER TABLE cdm.EventAttribute SET (LOCK_ESCALATION = DISABLE);
 GO
 
 -- ---------------------------------------------------------------------------
@@ -337,6 +347,8 @@ CREATE TABLE cdm.EventParty (
         FOREIGN KEY (EndLocation_ID) REFERENCES cdm.Location(ID)
 ) WITH (DATA_COMPRESSION = ROW);
 GO
+ALTER TABLE cdm.EventParty SET (LOCK_ESCALATION = DISABLE);
+GO
 
 -- ---------------------------------------------------------------------------
 -- 11. cdm.PartyAttribute
@@ -353,6 +365,8 @@ CREATE TABLE cdm.PartyAttribute (
     CONSTRAINT FK_PartyAttribute_EventParty
         FOREIGN KEY (EventParty_ID) REFERENCES cdm.EventParty(ID)
 ) WITH (DATA_COMPRESSION = ROW);
+GO
+ALTER TABLE cdm.PartyAttribute SET (LOCK_ESCALATION = DISABLE);
 GO
 
 -- ---------------------------------------------------------------------------
@@ -374,6 +388,8 @@ CREATE TABLE cdm.EventPartyIdentifier (
     CONSTRAINT FK_EPI_Identifier
         FOREIGN KEY (Identifier_ID) REFERENCES cdm.Identifier(ID)
 );
+GO
+ALTER TABLE cdm.EventPartyIdentifier SET (LOCK_ESCALATION = DISABLE);
 GO
 
 -- ---------------------------------------------------------------------------

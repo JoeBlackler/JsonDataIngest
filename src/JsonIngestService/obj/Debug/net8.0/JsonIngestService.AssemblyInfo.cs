@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JsonIngestService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a2f77999a563db1fc2cb3b9cade75efc64886592")]
 [assembly: System.Reflection.AssemblyProductAttribute("JsonIngestService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JsonIngestService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
